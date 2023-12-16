@@ -10,4 +10,21 @@ util.promisify(fileSystem.readFile);
 const writeFileAsync = util.promisify(fileSystem.writeFile);
 // Same thing goes for the writeFile
 
+class Store {
+  read() {
+    return readFileAsync('db/db.json', 'utf8');
+  }
+
+  write(note) {
+    return writeFileAsync('db/db.json', JSON.stringify(note));
+  }
+
+};
+
+// need addNote
+
+// need updateNote
+
+// need deleteNote
+
 module.exports = new Store();
