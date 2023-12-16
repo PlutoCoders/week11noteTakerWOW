@@ -1,22 +1,54 @@
 const router = require('express').Router();
+const store = require('../db/store');
 
-// need a get for /notes
-// need a post for /notes
-// need a delete for /notes (but not all of notes, just the specific id of a note)
-router.get('/path', (req, res) => {
-    // callback function
-    // (Route handler/middleware to be executed when the request matches a specific route)
-    // Handle the GET request logic here
-  });
+// How can we make this code simpler using arrow functions?
 
-  router.post('/path', (req, res) => {
-    // call bunch function
-    // We will handle the post here
-  });
+// Ask for a note, show the notes (getNotes())
+router.get('/notes', function(req, res) {
+  store
+    .getNotes()
+    .then(function(notes) {
+      return res.json(notes);
+    })
+    .catch(function(err) {
+      return res.status(404).json(err);
+    });
+});
 
-  router.delete('/path', (req, res) => {
-    // callback function
-    // We will handle the delete here
-  });
+// User to add a new note, return the new note
+router.post('/notes', function(req, res) {
+  store
+    .addNote(req.body)
+    .then(function(note) {
+      return res.json(note);
+    })
+    .catch(function(err) {
+      return res.status(404).json(err);
+    });
+});
+
+// User to change a note that already exists, check for which note is to be changed, (id of note), add in new info (title/text), remove old note and replace with new note, then show the updated note
+router.put('/notes/:id', function(req, res) {
+  store
+    .updateNote(req.params.id, req.body)
+    .then(function(note) {
+      return res.json(note);
+    })
+    .catch(function(err) {
+      return res.status(404).json(err);
+    });
+});
+
+// The route name speaks for itself :)
+router.delete('/notes/:id', function(request, response) {
+  store
+    .removeNote(request.params.id)
+    .then(function() {
+      return response.json({ ok: true });
+    })
+    .catch(function(err) {
+      return response.status(404).json(err);
+    });
+});
 
 module.exports = router;
