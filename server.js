@@ -4,7 +4,7 @@ const htmlRoutes = require('./routes/htmlRoutes');
 
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3003;
 
 // Adds middleware to parse incoming JSON data
 app.use(express.json());
@@ -19,3 +19,4 @@ app.use('/', htmlRoutes);
 
 // Need this to start the server (tells it which port to lsiten on, in this case its 3001 because thats what we set the variable to)
 app.listen(PORT);
+console.log('http:/',{PORT});
